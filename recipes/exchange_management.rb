@@ -42,7 +42,7 @@ disabled_exchanges.each do |exchange|
   rabbitmq_exchange exchange['name'] do
     vhost exchange['vhost']
     user exchange['user']
-    password exchange['password']rabbitmq_exchange exchange['name'] do
+    password exchange['password']
     action :delete
     notifies :restart, "service[#{node['rabbitmq']['service_name']}]"
   end
