@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: rabbitmq
-# Recipe:: mgmt_console
+# Resource:: exchange
 #
-# Copyright 2012, Tacit Knowledge, Inc.
+# Copyright 2013, Kwarter, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,21 +17,15 @@
 # limitations under the License.
 #
 
-include_recipe "rabbitmq::default"
+actions :add, :delete 
 
-plugins = %w( rabbitmq_management rabbitmq_management_visualiser )
+attribute :exchange, :kind_of => String, :name_attribute => true
+attribute :type, :kind_of => String
+attribute :vhost, :kind_of => String
+attribute :user, :kind_of => String
+attribute :password, :kind_of => String
 
-plugins.each do |plugin|
-  rabbitmq_plugin plugin do
-    action :enable
-    notifies :restart, resources(:service => node['rabbitmq']['service_name'])
-  end
-end
-
-remote_file "/usr/sbin/rabbitmqadmin" do
-  source "http://localhost:15672/cli/rabbitmqadmin"
-  action :create_if_missing
-  owner 'root'
-  group 'root'
-  mode 0755
+def initialize(*args)
+  super
+  @action = :add
 end

@@ -31,8 +31,8 @@ end
 
 action :add do
   unless exchange_exists?(new_resource.exchange)
-    execute "rabbitmqctl add_exchange #{new_resource.exchange}" do
-      Chef::Log.info "Adding RabbitMQ exchange '#{new_resource.exchange}'."
+    execute "rabbitmqadmin -V #{new_resource.vhost} -u #{new_resource.user} -p #{new_resource.password} declare exchange name=#{new_resource.exchange} type=#{new_resource.type}" do
+      Chef::Log.debug "Adding RabbitMQ exchange '#{new_resource.exchange}'."
       new_resource.updated_by_last_action(true)
     end
   end
@@ -40,7 +40,7 @@ end
 
 action :delete do
   if exchange_exists?(new_resource.exchange)
-    execute "rabbitmqctl delete_exchange #{new_resource.exchange}" do
+    execute "rabbitmqadmin -V #{new_resource.vhost} -u #{new_resource.user} -p #{new_resource.password} declare exchange name=#{new_resource.exchange}" do
       Chef::Log.info "Deleting RabbitMQ exchange '#{new_resource.exchange}'."
       new_resource.updated_by_last_action(true)
     end

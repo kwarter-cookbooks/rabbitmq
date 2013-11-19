@@ -18,6 +18,7 @@
 #
 
 include_recipe "rabbitmq::default"
+include_recipe "rabbitmq::mgmt_console"
 
 
 enabled_exchanges = node['rabbitmq']['enabled_exchanges']
@@ -26,6 +27,10 @@ Chef::Log.info( enabled_exchanges.each)
 
 enabled_exchanges.each do |exchange|
   rabbitmq_exchange exchange['name'] do
+    type exchange['type']
+    vhost exchange['vhost']
+    user exchange['user']
+    password exchange['password']
     action :add
     notifies :restart, "service[#{node['rabbitmq']['service_name']}]"
   end
@@ -34,7 +39,10 @@ end
 disabled_exchanges = node['rabbitmq']['disabled_exchanges']
 
 disabled_exchanges.each do |exchange|
-  rabbitmq_exchange exchange do
+  rabbitmq_exchange exchange['name'] do
+    vhost exchange['vhost']
+    user exchange['user']
+    password exchange['password']rabbitmq_exchange exchange['name'] do
     action :delete
     notifies :restart, "service[#{node['rabbitmq']['service_name']}]"
   end
