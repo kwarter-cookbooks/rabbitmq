@@ -59,6 +59,10 @@ default['rabbitmq']['disabled_users'] =[]
 default['rabbitmq']['enabled_plugins'] = []
 default['rabbitmq']['disabled_plugins'] = []
 
+#exchanges
+default['rabbitmq']['enabled_exchanges'] = []
+default['rabbitmq']['disabled_exchanges'] = []
+
 # SmartOS-specific defaults
 if node[:platform] == 'smartos'
   default['rabbitmq']['service_name'] = 'rabbitmq'
