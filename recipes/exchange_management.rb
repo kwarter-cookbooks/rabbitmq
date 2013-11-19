@@ -20,6 +20,13 @@
 include_recipe "rabbitmq::default"
 include_recipe "rabbitmq::mgmt_console"
 
+remote_file "/usr/sbin/rabbitmqadmin" do
+  source "http://localhost:15672/cli/rabbitmqadmin"
+  action :create_if_missing
+  owner 'root'
+  group 'root'
+  mode 0755
+end
 
 enabled_exchanges = node['rabbitmq']['enabled_exchanges']
 

@@ -24,14 +24,6 @@ plugins = %w( rabbitmq_management rabbitmq_management_visualiser )
 plugins.each do |plugin|
   rabbitmq_plugin plugin do
     action :enable
-    notifies :restart, resources(:service => node['rabbitmq']['service_name'])
+    notifies :restart, resources(:service => node['rabbitmq']['service_name']), :immediately
   end
-end
-
-remote_file "/usr/sbin/rabbitmqadmin" do
-  source "http://localhost:15672/cli/rabbitmqadmin"
-  action :create_if_missing
-  owner 'root'
-  group 'root'
-  mode 0755
 end
