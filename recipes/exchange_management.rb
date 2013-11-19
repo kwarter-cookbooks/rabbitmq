@@ -39,7 +39,6 @@ enabled_exchanges.each do |exchange|
     user exchange['user']
     password exchange['password']
     action :add
-    notifies :restart, "service[#{node['rabbitmq']['service_name']}]"
   end
 end
 
